@@ -1301,6 +1301,11 @@ h6,
     gap: 22px;
 }
 
+.project-group-heading {
+    margin-top: 32px;
+    padding-top: 18px;
+}
+
 .project-row {
     display: grid;
     grid-template-columns: minmax(180px, 20%) 1fr;
@@ -1336,6 +1341,8 @@ h6,
 }
 
 .project-details {
+    display: flex;
+    flex-direction: column;
     padding: clamp(22px, 3vw, 34px);
 }
 
@@ -1373,6 +1380,13 @@ h6,
     color: #062654;
     font-size: 0.88rem;
     font-weight: 600;
+}
+
+.details-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 20px;
 }
 
 .internship-row .project-media {
@@ -1468,4 +1482,50 @@ h6,
     .contact-panel {
         padding: 24px;
     }
+}
+
+/*** Gallery Pages ***/
+.gallery-page {
+    min-height: 100vh;
+    background: #EAF0F7;
+}
+
+.gallery-header {
+    padding: 110px 0 34px;
+    background: linear-gradient(180deg, #EAF0F7 0%, #ffffff 100%);
+}
+
+.gallery-subtitle {
+    max-width: 760px;
+    color: #31506f;
+    line-height: 1.75;
+}
+
+.justified-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-auto-rows: 8px;
+    grid-auto-flow: dense;
+    gap: 14px;
+}
+
+.justified-gallery a {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 14px 36px rgba(6, 38, 84, 0.12);
+}
+
+.justified-gallery img {
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    object-fit: cover;
+    transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.justified-gallery a:hover img {
+    transform: scale(1.04);
+    filter: saturate(1.1);
 }

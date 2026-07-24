@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Gallery | Vishal Nagarajan Portfolio</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="icon" type="image/png" href="img/me.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="gallery-page">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light px-4 px-lg-5 py-3 py-lg-0">
+        <a href="index.html" class="navbar-brand p-0">
+            <h1 class="display-6 text-primary m-0">Vishal Nagarajan</h1>
+        </a>
+        <a href="index.html#Projects" class="btn btn-outline-primary rounded-pill py-2 px-4 ms-auto"><i class="fa fa-arrow-left me-2"></i>Back</a>
+    </nav>
+
+    <header class="gallery-header">
+        <div class="container">
+            <p class="eyebrow text-primary" id="galleryLabel">Gallery</p>
+            <h1 class="display-5 mb-3" id="galleryTitle">Project Gallery</h1>
+            <p class="gallery-subtitle mb-0" id="galleryDescription">Images from the selected project or internship.</p>
+        </div>
+    </header>
+
+    <main class="container py-5">
+        <div class="justified-gallery" id="galleryGrid"></div>
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script>
+        const galleries = {
+            "bldc": {
+                label: "Project Gallery",
+                title: "Sensorless BLDC Motor Controller",
+                description: "Images from the BLDC motor controller project.",
+                folder: "img/BLDC project",
+                files: ["img6.jpg", "img13.jpg", "img17.jpg", "img21.jpg", "img25.jpg", "img29.jpg", "img33.jpg"]
+            },
+            "solar": {
+                label: "Project Gallery",
+                title: "Solar Electric Cycle",
+                description: "Images from the solar electric cycle project.",
+                folder: "img/Solar Cycle Project",
+                files: ["img6.jpg", "img13.jpg"]
+            },
+            "baja-2025": {
+                label: "BAJA Gallery",
+                title: "eBAJA SAEINDIA 2025",
+                description: "Images from BAJA SAEINDIA 2025 eBAJA participation.",
+                folder: "img/Baja 2025",
+                files: ["img6.jpg", "img13.jpg", "img17.jpg", "img21.jpg", "img25.jpg", "img29.jpg", "img33.jpg", "img37.jpg", "img42.jpg", "img46.jpg", "img50.jpg", "img54.jpg", "img58.jpg", "img62.jpg", "img66.jpg", "img70.jpg", "img75.jpg", "img79.jpg", "img83.jpg", "img87.jpg", "img91.jpg"]
+            },
+            "baja-2024": {
+                label: "BAJA Gallery",
+                title: "eBAJA SAEINDIA 2024",
+                description: "Images from BAJA SAEINDIA 2024 eBAJA participation.",
+                folder: "img/Baja 2024",
+                files: ["img6.jpg", "img13.jpg", "img17.jpg", "img21.jpg", "img25.jpg", "img29.jpg", "img33.jpg"]
+            },
+            "dubai": {
+                label: "Internship Gallery",
+                title: "DRC International Electromechanical LLC",
+                description: "Images from the Dubai engineering department internship.",
+                folder: "img/Dubai intern",
+                files: ["img6.jpg", "img13.jpg", "img17.jpg", "img21.jpg", "img25.jpg", "img29.jpg", "img33.jpg"]
+            },
+            "bosch": {
+                label: "Internship Gallery",
+                title: "Bosch Rexroth Industrial Automation",
+                description: "Images from the Bosch Rexroth industrial automation internship.",
+                folder: "img/Bosch intern",
+                files: ["img6.jpg", "img13.jpg", "img17.jpg", "img21.jpg", "img25.jpg", "img29.jpg"]
+            },
+            "vasantha": {
+                label: "Internship Gallery",
+                title: "Vasantha Advanced Systems",
+                description: "Images from the Vasantha Advanced Systems internship training.",
+                folder: "img/Vasantha intern",
+                files: ["img6.jpg", "img13.jpg", "img17.jpg", "img21.jpg", "img25.jpg", "img29.jpg", "img33.jpg", "img37.jpg", "img42.jpg", "img46.jpg", "img50.jpg", "img54.jpg", "img58.jpg", "img62.jpg", "img66.jpg", "img70.jpg", "img75.jpg", "img79.jpg", "img83.jpg", "img87.jpg", "img91.jpg"]
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const selected = galleries[params.get("set")] || galleries.bldc;
+        const grid = document.getElementById("galleryGrid");
+
+        document.title = selected.title + " | Vishal Nagarajan Portfolio";
+        document.getElementById("galleryLabel").textContent = selected.label;
+        document.getElementById("galleryTitle").textContent = selected.title;
+        document.getElementById("galleryDescription").textContent = selected.description;
+
+        selected.files.forEach((file, index) => {
+            const path = `${selected.folder}/${file}`;
+            const link = document.createElement("a");
+            link.href = path;
+            link.dataset.lightbox = "details";
+            link.dataset.title = `${selected.title} - Image ${index + 1}`;
+
+            const image = document.createElement("img");
+            image.src = path;
+            image.alt = `${selected.title} image ${index + 1}`;
+            image.loading = "lazy";
+            image.addEventListener("load", () => resizeItem(link, image));
+
+            link.appendChild(image);
+            grid.appendChild(link);
+        });
+
+        function resizeItem(item, image) {
+            const rowHeight = 8;
+            const gap = 14;
+            const ratio = image.naturalHeight / image.naturalWidth;
+            const width = item.getBoundingClientRect().width;
+            const rowSpan = Math.ceil((width * ratio + gap) / (rowHeight + gap));
+            item.style.gridRowEnd = `span ${Math.max(rowSpan, 18)}`;
+        }
+
+        window.addEventListener("resize", () => {
+            grid.querySelectorAll("a").forEach((item) => {
+                const image = item.querySelector("img");
+                if (image.complete) {
+                    resizeItem(item, image);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
